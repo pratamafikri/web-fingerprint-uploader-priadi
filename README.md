@@ -600,12 +600,38 @@ session.savePath = null
 logger.threshold = 4
 ```
 
-#### 4. Install Dependencies
+#### 4. Install Custom Priadi Dependencies
+
+The application requires the custom Priadi API client library. Copy it from the project's Libraries folder to the vendor directory:
+
+```bash
+# Copy the priadi folder from app/Libraries to vendor
+cp -r app/Libraries/priadi vendor/
+
+# Verify the structure is correct
+ls -la vendor/priadi/priadi-api-client/src/
+```
+
+The composer.json already includes the autoload configuration for Priadi:
+```json
+"autoload": {
+  "psr-4": {
+    "Priadi\\ApiClient\\": "vendor/priadi/priadi-api-client/src"
+  }
+}
+```
+
+Update the autoloader cache:
+```bash
+composer dump-autoload
+```
+
+#### 5. Install Dependencies
 ```bash
 composer install
 ```
 
-#### 5. Create Writable Directories
+#### 6. Create Writable Directories
 ```bash
 chmod -R 755 writable/
 chmod -R 777 writable/cache
@@ -614,7 +640,7 @@ chmod -R 777 writable/session
 chmod -R 777 writable/uploads
 ```
 
-#### 6. Run Application
+#### 7. Run Application
 
 **Using PHP Built-in Server:**
 ```bash
@@ -628,7 +654,7 @@ php spark serve --host 0.0.0.0 --port 8080
 - Ensure `.htaccess` is enabled (if using Apache)
 - Configure virtual host to serve `/public` as root
 
-#### 7. Verify Installation
+#### 8. Verify Installation
 ```bash
 # Check dependencies
 php spark list
