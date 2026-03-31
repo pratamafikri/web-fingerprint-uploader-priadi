@@ -569,8 +569,8 @@ image: <binary file data>   // JPG or PNG
 For endpoints with `jwtAuth` filter, you need to include the JWT token in the request header:
 
 ```php
-$this->apiClient->setHeader('Authorization', 'Bearer ' . $token);`
-
+$this->apiClient->setHeader('Authorization', 'Bearer ' . $token);
+```
 ---
 
 ## Setup & Installation
