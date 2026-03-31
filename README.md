@@ -536,6 +536,59 @@ image: <binary file data>   // JPG or PNG
 
 ---
 
+## REST API v1 Endpoints
+
+All v1 endpoints are prefixed with `/api/v1/` and include rate limiting. Most endpoints (except authentication) require JWT authentication via the `jwtAuth` filter.
+
+### Authentication Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| POST | `/api/v1/auth/login` | User login, returns JWT token | ❌ |
+| POST | `/api/v1/auth/refresh` | Refresh expired JWT token | ❌ |
+| POST | `/api/v1/oauth/token` | OAuth token exchange | ❌ |
+
+### Instance Group Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | `/api/v1/instance-group` | List all instance groups | ✅ |
+| POST | `/api/v1/instance-group` | Create new instance group | ✅ |
+| GET | `/api/v1/instance-group/{id}` | Get instance group details | ✅ |
+| PUT | `/api/v1/instance-group/{id}` | Update instance group | ✅ |
+| DELETE | `/api/v1/instance-group/{id}` | Delete instance group | ✅ |
+
+### Person Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | `/api/v1/person` | List all persons | ✅ |
+| GET | `/api/v1/person/{id}` | Get person details | ✅ |
+| POST | `/api/v1/person` | Create new person | ✅ |
+| PUT | `/api/v1/person/{id}` | Update person information | ✅ |
+| PUT | `/api/v1/person/finger/{id}` | Upload fingerprint for person | ✅ |
+| DELETE | `/api/v1/person/{id}` | Delete person record | ✅ |
+
+### Result Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | `/api/v1/person/{id}/result` | Get fingerprint capture results | ✅ |
+
+### Capture Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| POST | `/api/v1/capturepage` | Capture fingerprint page data | ✅ |
+
+### Product Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | `/api/v1/product` | List all products | ✅ |
+
+---
+
 ## Setup & Installation
 
 ### Prerequisites
