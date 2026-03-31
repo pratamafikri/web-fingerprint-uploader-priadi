@@ -538,7 +538,7 @@ image: <binary file data>   // JPG or PNG
 
 # API Routes Usage Table
 
-| No | Method | Full Endpoint | Route Path (after `/v1/`) | Function | Example Usage | Filters |
+| No | Method | Full Endpoint | Route Path | Function | Example Usage | Filters |
 |----|--------|----------------|---------------------------|----------|---------------|---------|
 | 1 | POST | `api/v1/auth/login` | `auth/login` | User login | `$this->apiClient->post('auth/login', ['email' => 'user@example.com', 'password' => 'secret']);` | `rateLimit` |
 | 2 | POST | `api/v1/auth/refresh` | `auth/refresh` | Refresh access token | `$this->apiClient->post('auth/refresh', ['refresh_token' => 'your_refresh_token']);` | `rateLimit` |
@@ -569,7 +569,7 @@ image: <binary file data>   // JPG or PNG
 For endpoints with `jwtAuth` filter, you need to include the JWT token in the request header:
 
 ```php
-$this->apiClient->setHeader('Authorization', 'Bearer ' . $token);
+$this->apiClient->setHeader('Authorization', 'Bearer ' . $token);`
 
 ---
 
