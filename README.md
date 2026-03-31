@@ -536,56 +536,40 @@ image: <binary file data>   // JPG or PNG
 
 ---
 
-## REST API v1 Endpoints
+# API Routes Usage Table
 
-All v1 endpoints are prefixed with `/api/v1/` and include rate limiting. Most endpoints (except authentication) require JWT authentication via the `jwtAuth` filter.
+| No | Method | Full Endpoint | Route Path (after `/v1/`) | Function | Example Usage | Filters |
+|----|--------|----------------|---------------------------|----------|---------------|---------|
+| 1 | POST | `api/v1/auth/login` | `auth/login` | User login | `$this->apiClient->post('auth/login', ['email' => 'user@example.com', 'password' => 'secret']);` | `rateLimit` |
+| 2 | POST | `api/v1/auth/refresh` | `auth/refresh` | Refresh access token | `$this->apiClient->post('auth/refresh', ['refresh_token' => 'your_refresh_token']);` | `rateLimit` |
+| 3 | POST | `api/v1/oauth/token` | `oauth/token` | Get OAuth token | `$this->apiClient->post('oauth/token', ['grant_type' => 'password', 'client_id' => '...', 'client_secret' => '...']);` | `rateLimit` |
+| 4 | GET | `api/v1/instance-group` | `instance-group` | Get all instance groups | `$this->apiClient->get('instance-group');` | `rateLimit`, `jwtAuth` |
+| 5 | POST | `api/v1/instance-group` | `instance-group` | Create new instance group | `$this->apiClient->post('instance-group', ['name' => 'Group Name', 'description' => 'Description']);` | `rateLimit`, `jwtAuth` |
+| 6 | GET | `api/v1/instance-group/{id}` | `instance-group/{id}` | Get instance group details | `$this->apiClient->get('instance-group/1');` | `rateLimit`, `jwtAuth` |
+| 7 | PUT | `api/v1/instance-group/{id}` | `instance-group/{id}` | Update instance group | `$this->apiClient->put('instance-group/1', ['name' => 'Updated Name']);` | `rateLimit`, `jwtAuth` |
+| 8 | DELETE | `api/v1/instance-group/{id}` | `instance-group/{id}` | Delete instance group | `$this->apiClient->delete('instance-group/1');` | `rateLimit`, `jwtAuth` |
+| 9 | GET | `api/v1/person` | `person` | Get all person data | `$this->apiClient->get('person');` | `rateLimit`, `jwtAuth` |
+| 10 | GET | `api/v1/person/{id}` | `person/{id}` | Get person details | `$this->apiClient->get('person/1');` | `rateLimit`, `jwtAuth` |
+| 11 | POST | `api/v1/person` | `person` | Save new person | `$this->apiClient->post('person', ['name' => 'John Doe', 'email' => 'john@example.com']);` | `rateLimit`, `jwtAuth` |
+| 12 | PUT | `api/v1/person/{id}` | `person/{id}` | Update person data | `$this->apiClient->put('person/1', ['name' => 'John Updated']);` | `rateLimit`, `jwtAuth` |
+| 13 | PUT | `api/v1/person/finger/{id}` | `person/finger/{id}` | Save person fingerprint data | `$this->apiClient->put('person/finger/1', ['fingerprint_data' => 'base64_encoded_data']);` | `rateLimit`, `jwtAuth` |
+| 14 | DELETE | `api/v1/person/{id}` | `person/{id}` | Delete person | `$this->apiClient->delete('person/1');` | `rateLimit`, `jwtAuth` |
+| 15 | GET | `api/v1/person/{id}/result` | `person/{id}/result` | Get result for specific person | `$this->apiClient->get('person/1/result');` | `rateLimit`, `jwtAuth` |
+| 16 | POST | `api/v1/capturepage` | `capturepage` | Capture page data | `$this->apiClient->post('capturepage', ['page_data' => '...']);` | `rateLimit`, `jwtAuth` |
+| 17 | GET | `api/v1/product` | `product` | Get all product data | `$this->apiClient->get('product');` | `rateLimit`, `jwtAuth` |
 
-### Authentication Endpoints
+## Filter Information
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| POST | `/api/v1/auth/login` | User login, returns JWT token | ❌ |
-| POST | `/api/v1/auth/refresh` | Refresh expired JWT token | ❌ |
-| POST | `/api/v1/oauth/token` | OAuth token exchange | ❌ |
+- **`rateLimit`**: Filter to limit the number of requests (applied to all endpoints in the group)
+- **`jwtAuth`**: Filter for JWT authentication (required for endpoints that need valid JWT token)
 
-### Instance Group Endpoints
+## Usage Notes
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| GET | `/api/v1/instance-group` | List all instance groups | ✅ |
-| POST | `/api/v1/instance-group` | Create new instance group | ✅ |
-| GET | `/api/v1/instance-group/{id}` | Get instance group details | ✅ |
-| PUT | `/api/v1/instance-group/{id}` | Update instance group | ✅ |
-| DELETE | `/api/v1/instance-group/{id}` | Delete instance group | ✅ |
+### Authentication
+For endpoints with `jwtAuth` filter, you need to include the JWT token in the request header:
 
-### Person Endpoints
-
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| GET | `/api/v1/person` | List all persons | ✅ |
-| GET | `/api/v1/person/{id}` | Get person details | ✅ |
-| POST | `/api/v1/person` | Create new person | ✅ |
-| PUT | `/api/v1/person/{id}` | Update person information | ✅ |
-| PUT | `/api/v1/person/finger/{id}` | Upload fingerprint for person | ✅ |
-| DELETE | `/api/v1/person/{id}` | Delete person record | ✅ |
-
-### Result Endpoints
-
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| GET | `/api/v1/person/{id}/result` | Get fingerprint capture results | ✅ |
-
-### Capture Endpoints
-
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| POST | `/api/v1/capturepage` | Capture fingerprint page data | ✅ |
-
-### Product Endpoints
-
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|----------------|
-| GET | `/api/v1/product` | List all products | ✅ |
+```php
+$this->apiClient->setHeader('Authorization', 'Bearer ' . $token);
 
 ---
 
